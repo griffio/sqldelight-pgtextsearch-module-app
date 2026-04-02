@@ -1,0 +1,13 @@
+CREATE EXTENSION IF NOT EXISTS pg_textsearch;
+
+CREATE TABLE documents (
+    id BIGSERIAL PRIMARY KEY,
+    content TEXT
+);
+
+INSERT INTO documents (content) VALUES
+    ('PostgreSQL is a powerful database system'),
+    ('BM25 is an effective ranking function'),
+    ('Full text search with custom scoring');
+
+CREATE INDEX docs_idx ON documents USING bm25(content) WITH (text_config='english');

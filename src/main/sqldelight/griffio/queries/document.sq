@@ -1,0 +1,4 @@
+select:
+SELECT * FROM documents
+ORDER BY content <@> 'database system'
+LIMIT 5;
