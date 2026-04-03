@@ -15,5 +15,8 @@ private fun getSqlDriver() = PGSimpleDataSource().apply {
 fun main() {
     val driver = getSqlDriver()
     val sample = Sample(driver)
-    sample.documentQueries.select().executeAsList().forEach { println(it) }
+    println("--- top k")
+    sample.documentQueries.topk("database system").executeAsList().forEach { println(it) }
+    println("--- score")
+    sample.documentQueries.score("database system").executeAsList().forEach { println(it) }
 }

@@ -10,4 +10,4 @@ INSERT INTO documents (content) VALUES
     ('BM25 is an effective ranking function'),
     ('Full text search with custom scoring');
 
-CREATE INDEX docs_idx ON documents USING bm25(content) WITH (text_config='english');
+CREATE INDEX docs_idx ON documents USING bm25(content) WITH (text_config='english', k1=1.5, b=0.8);

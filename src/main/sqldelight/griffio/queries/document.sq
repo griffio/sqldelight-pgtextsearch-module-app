@@ -1,4 +1,8 @@
-select:
+topk:
 SELECT * FROM documents
-ORDER BY content <@> 'database system'
+ORDER BY content <@> to_bm25query(:query, 'docs_idx')
 LIMIT 5;
+
+score:
+SELECT * FROM documents
+WHERE content <@> to_bm25query(:query, 'docs_idx') < -1.0;
