@@ -60,6 +60,15 @@ SELECT * FROM documents
 ORDER BY content <@> 'database system'
 LIMIT 5;
 ```
+
+Bind parameters seem to need to be wrapped in `to_bm25query` and explicit index name
+
+```sql
+topk:
+SELECT * FROM documents
+ORDER BY content <@> to_bm25query(:query, 'docs_idx')
+LIMIT 5;
+```
 ---
 
 ```shell
