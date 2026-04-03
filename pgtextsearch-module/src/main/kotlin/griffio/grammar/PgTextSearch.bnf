@@ -44,6 +44,7 @@ private sql_column_expr ::= <<columnExprExt <<column_expr_real>>>>
 score_operator ::= '<@>'
 
 score_operator_expression ::= sql_column_expr score_operator <<expr '-1'>> {
+  mixin = "griffio.grammar.mixins.PgTextSearchScoreOperatorMixin"
   pin = 2
 }
 

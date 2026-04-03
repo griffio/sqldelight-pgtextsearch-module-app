@@ -8,11 +8,15 @@ import app.cash.sqldelight.dialect.api.TypeResolver
 import app.cash.sqldelight.dialects.postgresql.PostgreSqlTypeResolver
 import app.cash.sqldelight.dialects.postgresql.grammar.PostgreSqlParser
 import app.cash.sqldelight.dialects.postgresql.grammar.PostgreSqlParserUtil
+import app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlTypeName
 import com.alecstrong.sql.psi.core.psi.SqlExpr
 import com.alecstrong.sql.psi.core.psi.SqlFunctionExpr
 import com.alecstrong.sql.psi.core.psi.SqlTypeName
 import com.intellij.lang.parser.GeneratedParserUtilBase.Parser
+import com.intellij.psi.PsiElement
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.STRING
 import com.squareup.kotlinpoet.TypeName
 import griffio.grammar.PgTextSearchParser
@@ -23,6 +27,9 @@ import griffio.grammar.PgTextSearchParserUtil.storage_parameters
 import griffio.grammar.PgTextSearchParserUtil.type_name
 import griffio.grammar.psi.PgTextSearchBm25QueryDataType
 import griffio.grammar.psi.PgTextSearchExtensionExpr
+import griffio.grammar.psi.PgTextSearchScoreOperatorExpression
+import griffio.grammar.psi.PgTextSearchTypeName
+import griffio.grammar.psi.PgTextSearchTypes
 
 class PgTextSearchModule : SqlDelightModule {
     override fun typeResolver(parentResolver: TypeResolver): TypeResolver = PgTextSearchTypeResolver(parentResolver)
@@ -89,10 +96,18 @@ enum class PgTextSearchSqlType(override val javaType: TypeName) : DialectType {
 // Change to inheritance where some implementations may need to call `super` - not possible with delegation
 // parentResolver is called to delegate to the next TypeResolver in the chain
 private class PgTextSearchTypeResolver(private val parentResolver: TypeResolver) : PostgreSqlTypeResolver(parentResolver) {
+    override fun argumentType(
+        parent: PsiElement,
+        argument: SqlExpr,
+    ): IntermediateType {
+        println(argument.text)
+        println(parent.text)
+        return super.argumentType(parent, argument)
+    }
 
     override fun definitionType(typeName: SqlTypeName): IntermediateType {
         return when (typeName) {
-            is PgTextSearchBm25QueryDataType -> IntermediateType(PgTextSearchSqlType.BM25QUERY)
+            is PgTextSearchTypeName -> IntermediateType(PgTextSearchSqlType.BM25QUERY) // typeName.bm25QueryDataType is the only type
             else -> parentResolver.definitionType(typeName) // use parentResolver to use the module chain
         }
     }
