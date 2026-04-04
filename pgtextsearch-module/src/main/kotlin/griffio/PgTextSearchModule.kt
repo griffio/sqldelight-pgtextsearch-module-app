@@ -96,15 +96,6 @@ enum class PgTextSearchSqlType(override val javaType: TypeName) : DialectType {
 // Change to inheritance where some implementations may need to call `super` - not possible with delegation
 // parentResolver is called to delegate to the next TypeResolver in the chain
 private class PgTextSearchTypeResolver(private val parentResolver: TypeResolver) : PostgreSqlTypeResolver(parentResolver) {
-    override fun argumentType(
-        parent: PsiElement,
-        argument: SqlExpr,
-    ): IntermediateType {
-        println(argument.text)
-        println(parent.text)
-        return super.argumentType(parent, argument)
-    }
-
     override fun definitionType(typeName: SqlTypeName): IntermediateType {
         return when (typeName) {
             is PgTextSearchTypeName -> IntermediateType(PgTextSearchSqlType.BM25QUERY) // typeName.bm25QueryDataType is the only type
