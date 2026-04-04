@@ -7,7 +7,7 @@ import com.intellij.lang.ASTNode
 import griffio.grammar.psi.PgTextSearchScoreOperatorExpression
 
 /**
- * Used for <@> expressions to avoid bind errors
+ * Used for `x <@> y` expressions in SqlBinaryExpr type resolver
  */
 internal abstract class PgTextSearchScoreOperatorMixin(node: ASTNode) :
     SqlCompositeElementImpl(node),
