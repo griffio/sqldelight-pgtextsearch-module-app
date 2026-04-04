@@ -8,15 +8,11 @@ import app.cash.sqldelight.dialect.api.TypeResolver
 import app.cash.sqldelight.dialects.postgresql.PostgreSqlTypeResolver
 import app.cash.sqldelight.dialects.postgresql.grammar.PostgreSqlParser
 import app.cash.sqldelight.dialects.postgresql.grammar.PostgreSqlParserUtil
-import app.cash.sqldelight.dialects.postgresql.grammar.psi.PostgreSqlTypeName
 import com.alecstrong.sql.psi.core.psi.SqlExpr
 import com.alecstrong.sql.psi.core.psi.SqlFunctionExpr
 import com.alecstrong.sql.psi.core.psi.SqlTypeName
 import com.intellij.lang.parser.GeneratedParserUtilBase.Parser
-import com.intellij.psi.PsiElement
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
-import com.squareup.kotlinpoet.MemberName
 import com.squareup.kotlinpoet.STRING
 import com.squareup.kotlinpoet.TypeName
 import griffio.grammar.PgTextSearchParser
@@ -25,11 +21,8 @@ import griffio.grammar.PgTextSearchParserUtil.extension_expr
 import griffio.grammar.PgTextSearchParserUtil.index_method
 import griffio.grammar.PgTextSearchParserUtil.storage_parameters
 import griffio.grammar.PgTextSearchParserUtil.type_name
-import griffio.grammar.psi.PgTextSearchBm25QueryDataType
 import griffio.grammar.psi.PgTextSearchExtensionExpr
-import griffio.grammar.psi.PgTextSearchScoreOperatorExpression
 import griffio.grammar.psi.PgTextSearchTypeName
-import griffio.grammar.psi.PgTextSearchTypes
 
 class PgTextSearchModule : SqlDelightModule {
     override fun typeResolver(parentResolver: TypeResolver): TypeResolver = PgTextSearchTypeResolver(parentResolver)
