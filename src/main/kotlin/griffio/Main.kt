@@ -19,4 +19,14 @@ fun main() {
     sample.documentQueries.topk("database system").executeAsList().forEach { println(it) }
     println("--- score")
     sample.documentQueries.score("database system").executeAsList().forEach { println(it) }
+    println("--- Basic text similarity with limit")
+    sample.articleQueries.selectBasicTextSimilarityWithLimit().executeAsList().forEach { println(it) }
+    println("--- Filtered search")
+    sample.articleQueries.selectCategoryFilteredSearch().executeAsList().forEach { println(it) }
+    println("--- Find similar articles to a specific one")
+    sample.articleQueries.selectFindSimilarArticlesToASpecificOne().executeAsList().forEach { println(it) }
+    println("--- Multi term search with ranking")
+    sample.articleQueries.selectMultiTermSearchWithRanking().executeAsList().forEach { println(it) }
+    println("--- Top results with scoring")
+    sample.articleQueries.selectTopResultsWithScoring().executeAsList().forEach { println(it) }
 }

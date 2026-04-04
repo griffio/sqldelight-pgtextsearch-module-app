@@ -1,0 +1,38 @@
+-- Test 1: Basic text similarity search with LIMIT (implicit index resolution)
+selectBasicTextSimilarityWithLimit:
+SELECT title, content, content <@> to_bm25query('database', 'articles_tapir_idx') AS score
+FROM articles
+ORDER BY content <@> 'database'
+LIMIT 5;
+
+-- Test 2: Multi-term search with ranking (implicit index resolution)
+selectMultiTermSearchWithRanking:
+SELECT title, content, content <@> to_bm25query('machine learning', 'articles_tapir_idx') AS score
+FROM articles
+ORDER BY content <@> 'machine learning'
+LIMIT 3;
+
+-- Test 3: Category-filtered search (implicit index resolution)
+selectCategoryFilteredSearch:
+SELECT title, content, content <@> to_bm25query('search algorithms', 'articles_tapir_idx') AS score
+FROM articles
+WHERE category = 'technology'
+ORDER BY content <@> 'search algorithms'
+LIMIT 10;
+
+-- Test 4: Find similar articles to a specific one (standalone scoring with explicit corpus)
+-- Note: This query uses explicit index name because of dynamic query text
+selectFindSimilarArticlesToASpecificOne:
+SELECT a2.title, a2.content, a2.content <@> to_bm25query(a1.content, 'articles_tapir_idx') AS score
+FROM articles a1, articles a2
+WHERE a1.id = 3  -- "Text Search Algorithms" article
+  AND a2.id != a1.id
+ORDER BY a2.content <@> to_bm25query(a1.content, 'articles_tapir_idx')
+LIMIT 5;
+
+-- Test 5: Top results with scoring (implicit index resolution)
+selectTopResultsWithScoring:
+SELECT title, content, content <@> to_bm25query('database optimization', 'articles_tapir_idx') AS score
+FROM articles
+ORDER BY content <@> 'database optimization'
+LIMIT 10;
