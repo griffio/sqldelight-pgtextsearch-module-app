@@ -54,6 +54,8 @@ INSERT INTO documents (content) VALUES
 CREATE INDEX docs_idx ON documents USING bm25(content) WITH (text_config='english');
 ```
 
+Implicit index name with text
+
 ```sql
 select:
 SELECT * FROM documents
@@ -61,13 +63,19 @@ ORDER BY content <@> 'database system'
 LIMIT 5;
 ```
 
-Bind parameters seem to need to be wrapped in `to_bm25query` and explicit index name
+Bind parameters need to use `to_bm25query` and explicit index name
 
 ```sql
 topk:
 SELECT * FROM documents
 ORDER BY content <@> to_bm25query(:query, 'docs_idx')
 LIMIT 5;
+```
+
+```sql
+score:
+SELECT * FROM documents
+WHERE content <@> to_bm25query(:query, 'docs_idx') < -1.0;
 ```
 ---
 
