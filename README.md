@@ -28,7 +28,7 @@ sqldelight {
             packageName.set("griffio.queries")
             dialect(libs.sqldelight.postgresql.dialect)
             module(project(":pgtextsearch")) // module can be local project
-            // or external dependency module("io.github.griffio:sqldelight-pgtextsearch-module:0.0.1")
+            // or external dependency module("io.github.griffio:sqldelight-pgtextsearch:0.0.2")
         }
     }
 }
@@ -36,7 +36,7 @@ sqldelight {
 
 `pgtextsearch-module` published in Maven Central https://central.sonatype.com/artifact/io.github.griffio/sqldelight-pgtextsearch/versions
 
-`io.github.griffio:sqldelight-pgtextsearch:0.0.1`
+`io.github.griffio:sqldelight-pgtextsearch:0.0.2`
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS pg_textsearch;
